@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Keyword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
+use DonatelloZa\RakePlus\RakePlus;
 
 class PostController extends Controller
 {
@@ -56,6 +59,41 @@ class PostController extends Controller
         $post->tweetcontent = request('tweet_text');
         $post->tweetimage = $imagePath;
         $post->save();
+
+        $rake = RakePlus::create($post->tweettitle, 'en_US');
+        $phrase_scores = $rake->sortByScore('desc')->scores();
+
+        foreach($phrase_scores as $key => $value) 
+        {
+            $keyword = new Keyword();
+
+            $keyword->user_id = $user->id;
+            $keyword->post_id = $post->id;
+
+            $keyword->keyword = $key;
+            $keyword->score = $value;
+
+            $keyword->save();
+        }
+
+        if (!empty(request('tweet_text')))
+        {
+            $rake = RakePlus::create(request('tweet_text'), 'en_US');
+            $phrase_scores = $rake->sortByScore('desc')->scores();
+
+            foreach($phrase_scores as $key => $value) 
+            {
+                $keyword = new Keyword();
+
+                $keyword->user_id = $user->id;
+                $keyword->post_id = $post->id;
+
+                $keyword->keyword = $key;
+                $keyword->score = $value;
+
+                $keyword->save();
+            }
+        }
 
         $userprofile = DB::table('profiles')->where('user_id', '=', $user->id)->first();
         $profilepic = base64_encode(Storage::get('public/' . $userprofile->image));

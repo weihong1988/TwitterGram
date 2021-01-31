@@ -30,3 +30,5 @@ Route::post('/profile/{id}/update', [App\Http\Controllers\ProfileController::cla
 
 Route::resource('post', App\Http\Controllers\PostController::class);
 Route::resource('rating', App\Http\Controllers\RatingController::class);
+
+Route::resource('follower', App\Http\Controllers\FollowerController::class);

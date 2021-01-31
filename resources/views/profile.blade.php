@@ -267,38 +267,23 @@
                 cache: false
             });
         }, 5000);
-
-        const WeatherTimer = setTimeout(function() 
-        {
-            var reqURL = 'http://api.openweathermap.org/data/2.5/weather?q=Singapore&units=metric&appid=501baaf5217ae89b4de670e011ce075f'
-            var request = new XMLHttpRequest(); 
-            request.open('GET', reqURL);
-            request.responseType = 'json';
-            request.send();
-            request.onload = function() 
-            {
-                var resp = request.response;
-                var Temp = Math.round(resp.main.temp * 10) / 10;
-                var main = resp.weather[0].main;
-                var description = resp.weather[0].description;
-
-                HTMLstring = `<div id="temperature" style="display: none; margin-bottom: 20px;"><p>Weather: ${main}<br>${description}<br>Temp: ${Temp} &deg;C</p></div>`;
-
-                $('#temperature').replaceWith(HTMLstring);
-                $('#temperature').fadeIn(2000);
-            }
-        }, 2000);
     });
 
 </script>
 
-<div class="col-md-2" style="position: fixed; height: 200px; top: calc(100vh - 200px); margin-left: 20px;">
-    <div id="temperature" style="margin-bottom: 20px;">
-        <p>
-            <br>
-            <br>
-        </p>
+<div class="col-md-2" style="position: fixed; height: 400px; margin-left: 20px; overflow-y: scroll;">
+    <h4 style="text-align: center; font-weight: bold;">Following</h4>
+    @foreach($following as $friend)
+    <div class="row" id="following_{{ $friend->friend_id }}" style="margin-top: 20px;">
+        <img class="rounded-circle" width="50" src="/storage/{{ $friend->profileimage }}">
+        <div style="display: inline-block; padding: 10px 25px;">
+            <p style="margin-bottom: 0px;">{{ '@' . $friend->username }}</p>
+        </div>
     </div>
+    @endforeach
+</div>
+
+<div class="col-md-2" style="position: fixed; height: 100px; top: calc(100vh - 100px); margin-left: 20px;">
     <img class="rounded-circle" width="50" src="/storage/{{ $profile->image }}">
     <div style="display: inline-block;">
         <p style="font-weight: bold; margin-bottom: 0px;">{{ $profile->description }}</p>
@@ -313,7 +298,7 @@
                 <div class="container">
                     <!-- Home title for Twitter -->
                     <div class="row justify-content-center">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mt-1">
                             <h3 style="font-weight: bold">Home</h3>
                             <hr>
                         </div>
@@ -367,7 +352,7 @@
                                         <span style="font-weight: bold; font-style: italic;">{{ $post->profilename }}</span>
                                         &nbsp;&nbsp;
                                         <span style="font-style: italic;">{{ '@' . $post->username }}</span>
-                                        <span style="margin-left: 10px;">{{ date('M j, Y', strtotime($post->created_at) + 8 * 3600) }}</span>
+                                        <span style="margin-left: 10px;">{{ date('M j, Y', strtotime($post->time) + 8 * 3600) }}</span>
 
                                         <p id="tweettitle_{{ $post->id }}" style="font-weight: bold; text-decoration-line: underline; margin-top: 10px; margin-bottom: 0px">{{ $post->tweettitle }}</p>
 

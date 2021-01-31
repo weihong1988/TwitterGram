@@ -24,15 +24,36 @@ class ProfileController extends Controller
         {
             $user = Auth::user();
             $profile = Profile::where('user_id', $user->id)->first();
-            $posts = DB::table('posts')
+
+            $friends = DB::table('followers')
+                ->join('profiles', 'followers.friend_id', '=', 'profiles.user_id')
+                ->join('users', 'followers.friend_id', '=', 'users.id')
+                ->select('followers.friend_id AS friend_id', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username')
+                ->where('followers.user_id', '=', $user->id)
+                ->get();
+
+            $friends_posts = DB::table('followers')
+                ->join('posts', 'followers.friend_id', '=', 'posts.user_id')
+                ->join('profiles', 'followers.friend_id', '=', 'profiles.id')
+                ->join('users', 'followers.friend_id', '=', 'users.id')
+                ->leftJoin('ratings', function ($join) use ($user) {
+                    $join->on('posts.id', '=', 'ratings.post_id')
+                        ->where('ratings.user_id', '=', $user->id);
+                })
+                ->select('posts.id', 'posts.user_id AS post_userid', 'posts.tweettitle', 'posts.tweetcontent', 'posts.tweetimage', 'posts.created_at AS time', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username', 'ratings.rating')
+                ->where('followers.user_id', '=', $user->id);
+
+            $all_posts = DB::table('posts')
                 ->join('profiles', 'posts.user_id', '=', 'profiles.id')
                 ->join('users', 'posts.user_id', '=', 'users.id')
                 ->leftJoin('ratings', function ($join) use ($user) {
-                        $join->on('posts.id', '=', 'ratings.post_id')
-                            ->where('ratings.user_id', '=', $user->id);
-                    })
-                ->select('posts.id', 'posts.user_id AS post_userid', 'posts.tweettitle', 'posts.tweetcontent', 'posts.tweetimage', 'posts.created_at', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username', 'ratings.rating')
-                ->orderBy('posts.created_at', 'desc')
+                    $join->on('posts.id', '=', 'ratings.post_id')
+                        ->where('ratings.user_id', '=', $user->id);
+                })
+                ->select('posts.id', 'posts.user_id AS post_userid', 'posts.tweettitle', 'posts.tweetcontent', 'posts.tweetimage', 'posts.created_at AS time', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username', 'ratings.rating')
+                ->where('posts.user_id', '=', $user->id)
+                ->union($friends_posts)
+                ->orderBy('time', 'desc')
                 ->get();
 
             $latest = DB::table('posts')
@@ -49,7 +70,8 @@ class ProfileController extends Controller
             return view('profile', [
                 'user' => $user,
                 'profile' => $profile,
-                'posts' => $posts,
+                'following' =>$friends,
+                'posts' => $all_posts,
                 'latest' => $latest
             ]);
         }
