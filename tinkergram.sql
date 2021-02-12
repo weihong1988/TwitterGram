@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 31, 2021 at 01:50 AM
+-- Generation Time: Feb 12, 2021 at 09:41 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `followers` (
 --
 
 INSERT INTO `followers` (`id`, `user_id`, `friend_id`, `created_at`, `updated_at`) VALUES
-(2, 4, 1, '2021-01-30 01:26:48', '2021-01-30 01:26:48'),
-(3, 4, 2, '2021-01-30 01:26:49', '2021-01-30 01:26:49');
+(1, 1, 3, '2021-02-12 01:37:29', '2021-02-12 01:37:29'),
+(3, 1, 2, '2021-02-12 01:38:32', '2021-02-12 01:38:32');
 
 -- --------------------------------------------------------
 
@@ -84,34 +84,49 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   PRIMARY KEY (`id`),
   KEY `keywords_user_id_foreign` (`user_id`),
   KEY `keywords_post_id_foreign` (`post_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `keywords`
 --
 
 INSERT INTO `keywords` (`id`, `user_id`, `post_id`, `keyword`, `score`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'hot chick', 4, '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(2, 1, 1, 'super cute chick', 9, '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(3, 1, 1, 'short skirt', 4, '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(4, 1, 1, 'hot pants', 4, '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(5, 1, 1, 'wear', 1, '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(6, 1, 2, 'mature chick', 4, '2021-01-30 01:04:31', '2021-01-30 01:04:31'),
-(7, 1, 2, 'long legs chick', 9, '2021-01-30 01:04:31', '2021-01-30 01:04:31'),
-(8, 1, 2, 'people find', 4, '2021-01-30 01:04:31', '2021-01-30 01:04:31'),
-(9, 1, 2, 'interesting', 1, '2021-01-30 01:04:31', '2021-01-30 01:04:31'),
-(10, 2, 3, 'cute pussy', 4, '2021-01-30 01:05:53', '2021-01-30 01:05:53'),
-(11, 2, 3, 'cute cat pussy', 9, '2021-01-30 01:05:53', '2021-01-30 01:05:53'),
-(12, 2, 4, 'wet cat', 4, '2021-01-30 01:07:01', '2021-01-30 01:07:01'),
-(13, 2, 4, 'hot', 1, '2021-01-30 01:07:01', '2021-01-30 01:07:01'),
-(14, 2, 4, 'wet cat', 4, '2021-01-30 01:07:01', '2021-01-30 01:07:01'),
-(15, 2, 4, 'hot', 1, '2021-01-30 01:07:01', '2021-01-30 01:07:01'),
-(16, 3, 5, 'cute cuddley buns', 9, '2021-01-30 01:08:26', '2021-01-30 01:08:26'),
-(17, 3, 5, 'cute cuddley buns', 9, '2021-01-30 01:08:26', '2021-01-30 01:08:26'),
-(18, 3, 6, 'hot fluffy buns', 9, '2021-01-30 01:08:50', '2021-01-30 01:08:50'),
-(19, 3, 6, 'hot fluffy buns', 9, '2021-01-30 01:08:50', '2021-01-30 01:08:50'),
-(20, 4, 7, 'world', 1, '2021-01-30 01:11:07', '2021-01-30 01:11:07'),
-(21, 4, 7, 'lonely', 1, '2021-01-30 01:11:07', '2021-01-30 01:11:07');
+(1, 4, 1, 'partner loving', 4, '2021-02-12 01:31:46', '2021-02-12 01:31:46'),
+(2, 4, 1, 'fluffy dogs', 4, '2021-02-12 01:31:46', '2021-02-12 01:31:46'),
+(3, 4, 1, 'dogs', 2, '2021-02-12 01:31:46', '2021-02-12 01:31:46'),
+(4, 4, 2, 'dogs hanging', 4, '2021-02-12 01:32:09', '2021-02-12 01:32:09'),
+(5, 4, 2, 'mother', 1, '2021-02-12 01:32:09', '2021-02-12 01:32:09'),
+(6, 4, 2, 'sister', 1, '2021-02-12 01:32:09', '2021-02-12 01:32:09'),
+(7, 4, 2, 'family', 1, '2021-02-12 01:32:09', '2021-02-12 01:32:09'),
+(8, 1, 3, 'firm fluffy buns', 9, '2021-02-12 01:33:06', '2021-02-12 01:33:06'),
+(9, 1, 3, 'box', 1, '2021-02-12 01:33:06', '2021-02-12 01:33:06'),
+(10, 1, 4, 'floppy ears bun bun', 14, '2021-02-12 01:33:29', '2021-02-12 01:33:29'),
+(11, 1, 4, 'bun bun', 6, '2021-02-12 01:33:29', '2021-02-12 01:33:29'),
+(12, 1, 4, 'white', 1, '2021-02-12 01:33:29', '2021-02-12 01:33:29'),
+(13, 1, 4, 'sleepy', 1, '2021-02-12 01:33:29', '2021-02-12 01:33:29'),
+(14, 1, 5, 'young bun', 3, '2021-02-12 01:33:50', '2021-02-12 01:33:50'),
+(15, 1, 5, 'bun', 2, '2021-02-12 01:33:50', '2021-02-12 01:33:50'),
+(16, 1, 5, 'young', 2, '2021-02-12 01:33:50', '2021-02-12 01:33:50'),
+(17, 1, 5, 'friendly', 1, '2021-02-12 01:33:50', '2021-02-12 01:33:50'),
+(18, 2, 6, 'pretty hot chicks', 8, '2021-02-12 01:34:59', '2021-02-12 01:34:59'),
+(19, 2, 6, 'hot chicks', 5, '2021-02-12 01:34:59', '2021-02-12 01:34:59'),
+(20, 2, 6, 'group', 1, '2021-02-12 01:34:59', '2021-02-12 01:34:59'),
+(21, 2, 7, 'hot chick standing', 8, '2021-02-12 01:35:19', '2021-02-12 01:35:19'),
+(22, 2, 7, 'hot chick', 5, '2021-02-12 01:35:19', '2021-02-12 01:35:19'),
+(23, 2, 7, 'perfect', 1, '2021-02-12 01:35:19', '2021-02-12 01:35:19'),
+(24, 2, 7, 'middle', 1, '2021-02-12 01:35:19', '2021-02-12 01:35:19'),
+(25, 3, 8, 'white young pussy', 8, '2021-02-12 01:36:00', '2021-02-12 01:36:00'),
+(26, 3, 8, 'specimen found', 4, '2021-02-12 01:36:00', '2021-02-12 01:36:00'),
+(27, 3, 8, 'pussy', 2, '2021-02-12 01:36:00', '2021-02-12 01:36:00'),
+(28, 3, 9, 'friendly pussy', 4, '2021-02-12 01:36:19', '2021-02-12 01:36:19'),
+(29, 3, 9, 'pussy', 2, '2021-02-12 01:36:19', '2021-02-12 01:36:19'),
+(30, 3, 9, 'bed', 1, '2021-02-12 01:36:19', '2021-02-12 01:36:19'),
+(31, 3, 10, 'shy pussy', 3, '2021-02-12 01:36:37', '2021-02-12 01:36:37'),
+(32, 3, 10, 'pussy', 2, '2021-02-12 01:36:37', '2021-02-12 01:36:37'),
+(33, 3, 10, 'shy', 2, '2021-02-12 01:36:37', '2021-02-12 01:36:37'),
+(34, 3, 10, 'young', 1, '2021-02-12 01:36:37', '2021-02-12 01:36:37'),
+(35, 3, 11, 'elderly pussy', 4, '2021-02-12 01:36:54', '2021-02-12 01:36:54'),
+(36, 3, 11, 'dark', 1, '2021-02-12 01:36:54', '2021-02-12 01:36:54');
 
 -- --------------------------------------------------------
 
@@ -125,21 +140,21 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(15, '2014_10_12_000000_create_users_table', 1),
-(16, '2014_10_12_100000_create_password_resets_table', 1),
-(17, '2019_08_19_000000_create_failed_jobs_table', 1),
-(18, '2020_12_18_141340_create_profiles_table', 1),
-(19, '2020_12_19_060908_create_posts_table', 1),
-(20, '2020_12_25_182920_create_ratings_table', 1),
-(21, '2021_01_29_132737_create_followers_table', 1),
-(22, '2021_01_29_132920_create_keywords_table', 1);
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2020_12_18_141340_create_profiles_table', 1),
+(5, '2020_12_19_060908_create_posts_table', 1),
+(6, '2020_12_25_182920_create_ratings_table', 1),
+(7, '2021_01_29_132737_create_followers_table', 1),
+(8, '2021_01_29_132920_create_keywords_table', 1);
 
 -- --------------------------------------------------------
 
@@ -172,19 +187,24 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `posts_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `user_id`, `tweettitle`, `tweetcontent`, `tweetimage`, `created_at`, `updated_at`) VALUES
-(1, 1, 'I am a hot chick', 'Super cute chick. I wear a short skirt and hot pants', 'uploads/TqfXAFa5uEY4Bu53YlKIRiqD1olnuAjzkQsg8boe.jpg', '2021-01-30 01:03:56', '2021-01-30 01:03:56'),
-(2, 1, 'Mature chick', 'Long legs chick. Many people find it interesting.', 'uploads/veOZAkX6IQ9iu5nMivVuzDDdP7qwrRrs93oEV6ue.jpg', '2021-01-30 01:04:31', '2021-01-30 01:04:31'),
-(3, 2, 'Cute pussy', 'Very cute cat pussy', 'uploads/iFx8uSCTwvN8FniF43G8ckmVx8fLYavUUYy5WYeu.jpg', '2021-01-30 01:05:53', '2021-01-30 01:05:53'),
-(4, 2, 'Hot and wet cat', 'Hot and wet cat', 'uploads/gPrEbdK1BO137UYhEsLEtOIlLuGVoms6yzJqhNBb.jpg', '2021-01-30 01:07:01', '2021-01-30 01:07:01'),
-(5, 3, 'Cute cuddley buns', 'Cute cuddley buns', 'uploads/0bvjMiHgmSCi3j8TSUfHe4WNICGBgPIce3yjwALS.jpg', '2021-01-30 01:08:26', '2021-01-30 01:08:26'),
-(6, 3, 'Hot fluffy buns', 'Hot fluffy buns', 'uploads/Ex2nNnPD2VgXtL5IV7TApbBwGxK9uRkwTa01j6Do.jpg', '2021-01-30 01:08:50', '2021-01-30 01:08:50');
+(1, 4, 'Fluffy dogs', 'Dogs as a partner loving each other', 'uploads/FKn38OTjBLNWCXVkUvqKDC3dDdQoESCpg4jtz31u.jpg', '2021-02-12 01:31:46', '2021-02-12 01:31:46'),
+(2, 4, 'Mother and sister', 'A family of dogs hanging out together', 'uploads/s17x27JqCDzlFTHSbdEtmsR227WwxK8YxXgn9gyZ.jpg', '2021-02-12 01:32:09', '2021-02-12 01:32:09'),
+(3, 1, 'Two firm fluffy buns', 'In a box', 'uploads/8hwEaMtcPdzKlSqMP2EI91OpbzwZGkoFGkYoCnLD.jpg', '2021-02-12 01:33:06', '2021-02-12 01:33:06'),
+(4, 1, 'Floppy ears bun bun', 'This bun bun is white and sleepy', 'uploads/b9awelYBdUi78ygSgk7WZ15DR1DrdcD6RiM2wpLb.jpg', '2021-02-12 01:33:29', '2021-02-12 01:33:29'),
+(5, 1, 'Young bun', 'This bun is young and friendly hearted', 'uploads/yjeQ6VNZA0Stz0DvneQIO4p0eIWg1ddwonLKpl9J.jpg', '2021-02-12 01:33:50', '2021-02-12 01:37:49'),
+(6, 2, 'A group of hot chicks', 'Pretty hot chicks in a group', 'uploads/bad60TIoxSlBJh1csvC2q2QlApst93MKxRAj9cu6.jpg', '2021-02-12 01:34:59', '2021-02-12 01:34:59'),
+(7, 2, 'Perfect looking hot chick', 'Hot chick standing in the middle', 'uploads/vryOAceOUasYnbauDGh1Db8fEhSgD9l2r8kqHqUs.jpg', '2021-02-12 01:35:19', '2021-02-12 01:35:19'),
+(8, 3, 'White young pussy', 'This pussy is the best specimen found', 'uploads/9yaM8QZdA8UzxJKfvJ68igvyoPw1GrUEnJzMip4K.png', '2021-02-12 01:36:00', '2021-02-12 01:36:00'),
+(9, 3, 'Friendly pussy on bed', 'Pussy is on bed', 'uploads/of1H6U5YSqvE7fJI6JWK9hcLZiUlTAcsSDaRBd3N.jpg', '2021-02-12 01:36:19', '2021-02-12 01:36:19'),
+(10, 3, 'Shy pussy', 'This pussy is young and shy', 'uploads/VYNF6zgkI8jkiq611FjpZ7F58lTlsBSk0Q0x0sOr.jpg', '2021-02-12 01:36:37', '2021-02-12 01:36:37'),
+(11, 3, 'Old elderly pussy', 'Looks quite old and dark', 'uploads/ZJJ03pkeI5cCb3uY7IKyCZ3uvDx77wPquuHz4hQh.jpg', '2021-02-12 01:36:53', '2021-02-12 01:36:53');
 
 -- --------------------------------------------------------
 
@@ -210,10 +230,10 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `description`, `image`, `isadmin`, `created_at`, `updated_at`) VALUES
-(1, 1, 'I am very cute', 'uploads/G83VBeRcErhLxSh3janX0RTfWkky4lmbIYzGlk2I.jpg', 0, '2021-01-30 01:03:12', '2021-01-30 01:03:12'),
-(2, 2, 'I love cats', 'uploads/IeFr458jUKhsLWSCc2eJ8LaiMRXuiBZRTfaDWFA9.png', 0, '2021-01-30 01:05:34', '2021-01-30 01:05:34'),
-(3, 3, 'I love rabbits', 'uploads/1W5x5LBakGx2AdCWsfhvU3Z125K7gFsfnW1q6bef.jpg', 0, '2021-01-30 01:08:09', '2021-01-30 01:08:09'),
-(4, 4, 'I love dogs', 'uploads/pa66st2olp09ogVD6rTkXT93mJriuMv0W5WzXsBj.jpg', 0, '2021-01-30 01:10:48', '2021-01-30 01:10:48');
+(1, 1, 'I love rabbits', 'uploads/zvUpr5N7VNemI2CpLK7D5CLQzfsAxMiNcVn2F8Ub.jpg', 0, '2021-02-12 01:22:37', '2021-02-12 01:22:37'),
+(2, 2, 'I am very cute', 'uploads/PPQDpuiHpTQrV8W8hDEUYAc7X1rFsMMRZv0Wx5yb.jpg', 0, '2021-02-12 01:29:31', '2021-02-12 01:29:31'),
+(3, 3, 'I love cats', 'uploads/iVEn7zKPd3Lw39E9HLRvhPn0tXEgJLbhBVSow4M0.jpg', 0, '2021-02-12 01:30:15', '2021-02-12 01:30:15'),
+(4, 4, 'I love dogs', 'uploads/uiqzGrfjQvfcMRZXZF1zStS9LItl17aEvEaHTrKI.jpg', 0, '2021-02-12 01:31:09', '2021-02-12 01:31:09');
 
 -- --------------------------------------------------------
 
@@ -232,19 +252,18 @@ CREATE TABLE IF NOT EXISTS `ratings` (
   PRIMARY KEY (`id`),
   KEY `ratings_user_id_foreign` (`user_id`),
   KEY `ratings_post_id_foreign` (`post_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `ratings`
 --
 
 INSERT INTO `ratings` (`id`, `user_id`, `post_id`, `rating`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 4, '2021-01-30 01:04:00', '2021-01-30 01:04:00'),
-(2, 2, 3, 4, '2021-01-30 01:06:04', '2021-01-30 01:06:04'),
-(3, 2, 4, 4, '2021-01-30 01:07:04', '2021-01-30 01:07:04'),
-(4, 3, 5, 4, '2021-01-30 01:08:28', '2021-01-30 01:08:29'),
-(5, 3, 6, 5, '2021-01-30 01:08:52', '2021-01-30 01:08:52'),
-(6, 4, 7, 4, '2021-01-30 01:12:12', '2021-01-30 01:12:12');
+(1, 4, 2, 4, '2021-02-12 01:32:15', '2021-02-12 01:32:15'),
+(2, 4, 1, 3, '2021-02-12 01:32:16', '2021-02-12 01:32:16'),
+(3, 1, 11, 3, '2021-02-12 01:40:31', '2021-02-12 01:40:31'),
+(4, 1, 10, 4, '2021-02-12 01:40:36', '2021-02-12 01:40:36'),
+(5, 1, 9, 3, '2021-02-12 01:40:41', '2021-02-12 01:40:41');
 
 -- --------------------------------------------------------
 
@@ -271,10 +290,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Hot chick', 'user1@gmail.com', NULL, '$2y$10$51G8qk3m3Vq/7sf2BfqVzuoFdh8/g9cqjAbcAuIIhihx7iP/ZzpZe', NULL, '2021-01-30 01:02:52', '2021-01-30 01:02:52'),
-(2, 'CatLover', 'user2@gmail.com', NULL, '$2y$10$QYjFahwpVURv7qaTgAKi0Ou/mj8pvByYE6EbZI.reo7B3qR.sevlu', NULL, '2021-01-30 01:05:06', '2021-01-30 01:05:06'),
-(3, 'RabbitLover', 'user3@gmail.com', NULL, '$2y$10$mFUw8Afw4kXdw4iv3gT5euSt66SSFcmbjuvelT1HlY1mt/FJ539oW', NULL, '2021-01-30 01:07:52', '2021-01-30 01:07:52'),
-(4, 'DogLover', 'user4@gmail.com', NULL, '$2y$10$pLeIWogXJATCHKPoR3gCMuUq9hnu9lRUWmh4hug4RY3yk9pMW/1c2', NULL, '2021-01-30 01:10:33', '2021-01-30 01:10:33');
+(1, 'RabbitLover', 'user1@gmail.com', NULL, '$2y$10$OOvY./6KaYpZ6RniisXtnu8QR76u/qXK6x3c4.pOt15hNH4D2WwHS', NULL, '2021-02-12 01:22:22', '2021-02-12 01:22:22'),
+(2, 'Hot Chick', 'user2@gmail.com', NULL, '$2y$10$XPtE196UobmxmzY54FAhS.092y8T.cps/iMMeJtS18ZWoXuMlO/2q', NULL, '2021-02-12 01:28:32', '2021-02-12 01:28:32'),
+(3, 'CatLover', 'user3@gmail.com', NULL, '$2y$10$EhWvjxxpXaVjCNAZo1Kr9O8uEiTDcDNrnstym5oUI/AxZI/Fqvsdm', NULL, '2021-02-12 01:29:59', '2021-02-12 01:29:59'),
+(4, 'DogLover', 'user4@gmail.com', NULL, '$2y$10$DSOlV21XdQ9nLPhxZcb6m.eljAwaDS.NA/CKSwrjUee2eCFOCUJmq', NULL, '2021-02-12 01:30:56', '2021-02-12 01:30:56');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

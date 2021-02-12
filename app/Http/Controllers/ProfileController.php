@@ -58,7 +58,7 @@ class ProfileController extends Controller
                 ->orderBy('time', 'desc')
                 ->get();
 
-            if (empty($all_posts))
+            if ($all_posts->isEmpty())
                 $latest = 0;
             else
                 $latest = $all_posts[0]->id;
