@@ -32,3 +32,5 @@ Route::resource('post', App\Http\Controllers\PostController::class);
 Route::resource('rating', App\Http\Controllers\RatingController::class);
 
 Route::resource('follower', App\Http\Controllers\FollowerController::class);
+
+Route::post('/follower/search', [App\Http\Controllers\FollowerController::class, 'search'])->name('follower.search');

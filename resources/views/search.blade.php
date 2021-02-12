@@ -103,7 +103,7 @@ $(document).ready(function($)
                             @csrf
                             <div class="form-group">
                                 <input class="form-control" type="text" id="search_tag" name="search_tag"
-                                    style="font-size: 14pt; width: 100%;" placeholder="Keywords">
+                                    style="font-size: 14pt; width: 100%;" value="{{ $search_phrase }}">
                             </div>
                             <div class="form-group">
                                 <div style="text-align: right; float: right;">
@@ -124,7 +124,7 @@ $(document).ready(function($)
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-12 mt-1">
-                        <h3 style="font-weight: bold">Popular now</h3>
+                        <h3 style="font-weight: bold">Users found</h3>
                         <hr>
                     </div>
                 </div>

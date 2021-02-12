@@ -50,7 +50,7 @@
 
     $(document).ready(function($)
     {
-        var LatestTweetID = {{ $latest->id }};
+        var LatestTweetID = {{ $latest }};
 
         function FixBarRating(domselector)
         {
@@ -231,6 +231,33 @@
             });
         });
 
+        $(".UnfollowFriend").click(function() 
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var ElementID = event.target.id;
+            var FollowerID = ElementID.substring(ElementID.indexOf("_") + 1);
+
+            $.ajax({
+                url: '/follower/' + FollowerID,
+                type: 'DELETE',
+                success: function (data) 
+                {
+                    $('#follower_' + FollowerID).fadeOut(1500, function() { $(this).remove(); });
+                },
+                error: function (errormsg) 
+                {
+                    $('#follower_' + FollowerID).fadeOut(1500, function() { $(this).remove(); });
+                    alert(errormsg.responseText);
+                },
+                cache: false
+            });
+        });
+
         FixBarRating('.tweetrating');
 
         const xhrUpdateTimer = setInterval(function() 
@@ -271,148 +298,153 @@
 
 </script>
 
-<div class="col-md-2" style="position: fixed; height: 400px; margin-left: 20px; overflow-y: scroll;">
+<!-- Friends following box -->
+<div class="col-md-2 card" style="position: fixed; height: 500px; margin-left: 25px; overflow-y: auto;">
     <h4 style="text-align: center; font-weight: bold;">Following</h4>
     @foreach($following as $friend)
-    <div class="row" id="following_{{ $friend->friend_id }}" style="margin-top: 20px;">
-        <img class="rounded-circle" width="50" src="/storage/{{ $friend->profileimage }}">
-        <div style="display: inline-block; padding: 10px 25px;">
+    <div class="row" id="follower_{{ $friend->id }}" style="margin-top: 10px; margin-left: 5px;">
+        <img class="rounded-circle" width="50" height="50" src="/storage/{{ $friend->profileimage }}">
+        <div style="display: inline-block; padding: 10px;">
             <p style="margin-bottom: 0px;">{{ '@' . $friend->username }}</p>
+        </div>
+        <div style="position: absolute; right: 0; padding: 10px;">
+            <img class="UnfollowFriend" id="unfollow_{{ $friend->id }}" src={{ url('/images/bin.svg') }} height="20" />
         </div>
     </div>
     @endforeach
 </div>
 
-<div class="col-md-2" style="position: fixed; height: 100px; top: calc(100vh - 100px); margin-left: 20px;">
-    <img class="rounded-circle" width="50" src="/storage/{{ $profile->image }}">
-    <div style="display: inline-block;">
-        <p style="font-weight: bold; margin-bottom: 0px;">{{ $profile->description }}</p>
-        <p style="margin-bottom: 0px;">{{ '@' . $user->name }}</p>
+<!-- My profile -->
+<div class="col-md-2 card" style="position: fixed; height: 100px; top: calc(100vh - 120px); margin-left: 25px;">
+    <div class="row" style="margin-top: 20px; margin-left: 5px;">
+        <img class="rounded-circle" width="50" height="50" src="/storage/{{ $profile->image }}">
+        <div style="display: inline-block; padding-left: 10px;">
+            <p style="font-weight: bold; margin-bottom: 0px;">{{ $profile->description }}</p>
+            <p style="margin-bottom: 0px;">{{ '@' . $user->name }}</p>
+        </div>
     </div>
 </div>
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="container">
-                    <!-- Home title for Twitter -->
-                    <div class="row justify-content-center">
-                        <div class="col-md-12 mt-1">
-                            <h3 style="font-weight: bold">Home</h3>
+        <div class="col-md-8 card">
+            <div class="container">
+                <!-- Home title for Twitter -->
+                <div class="row justify-content-center">
+                    <div class="col-md-12 mt-1">
+                        <h3 style="font-weight: bold">Home</h3>
+                        <hr>
+                    </div>
+                </div>
+
+                <!-- Twitter Post -->
+                <div class="row justify-content-center">
+                    <!-- Profile Pic -->
+                    <div class="col-md-2">
+                        <img class="rounded-circle" width="70" height="70" src="/storage/{{ $profile->image }}">
+                        <p style="font-weight: bold;">{{ $profile->description }}</p>
+                    </div>
+                    <div class="col-md-10">
+                        <form id="TweetSubmit" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="submit_tweet_title" name="tweet_title"
+                                    style="font-size: 14pt; width: 100%;" placeholder="Title">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="submit_tweet_text" name="tweet_text" rows="3"
+                                    style="font-size: 14pt;" placeholder="What's happening?"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="image-upload" style="text-align: left; float: left;">
+                                    Upload a picture: &nbsp;&nbsp;
+                                    <label for="submit_tweet_img">
+                                        <img src={{ url('/images/file-picture.svg') }} height="30" />
+                                    </label>
+
+                                    <input id="submit_tweet_img" name="tweet_img" type="file" />
+                                </div>
+                                <div style="text-align: right; float: right;" class="animate__animated animate__heartBeat animate__infinite">
+                                    <a id="PostTweetButton" class="TweetButton">Tweet</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row pt-5" id="tweets">
+                    @if (count($posts) == 0)
+                        <h4 style="margin-left: 40px;">No tweets today.</h4>
+                    @else
+                        @foreach($posts as $post)
+                        <div class="col-12" id="tweetdiv_{{ $post->id }}">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img class="rounded-circle" width="50" height="50" src="/storage/{{ $post->profileimage }}">
+                                </div>
+                                <div class="col-md-10">
+                                    <span style="font-weight: bold; font-style: italic;">{{ $post->profilename }}</span>
+                                    &nbsp;&nbsp;
+                                    <span style="font-style: italic;">{{ '@' . $post->username }}</span>
+                                    <span style="margin-left: 10px;">{{ date('M j, Y', strtotime($post->time) + 8 * 3600) }}</span>
+
+                                    <p id="tweettitle_{{ $post->id }}" style="font-weight: bold; text-decoration-line: underline; margin-top: 10px; margin-bottom: 0px">{{ $post->tweettitle }}</p>
+
+                                    @if (!empty($post->tweetcontent))
+                                    <p id="tweettext_{{ $post->id }}">{{ $post->tweetcontent }}</p>
+                                    @endif
+
+                                    @if (!empty($post->tweetimage))
+                                    <img src="/storage/{{$post->tweetimage}}" height="200"
+                                        class="rounded mx-auto d-block">
+                                    @endif
+
+                                    <div style="float: left; margin-top: 10px;">Your Rating: &nbsp;&nbsp;</div>
+                                    <div id="ratingdiv_{{ $post->id }}" style="float: left; margin-top: 10px;">
+                                        <select id="rating_{{ $post->id }}" class="tweetrating" data-field-name="rating_{{ $post->id }}">
+                                            <option value=""></option>
+                                            @if ($post->rating == 1)
+                                                <option value="1" selected>1</option>
+                                            @else
+                                                <option value="1">1</option>
+                                            @endif
+                                            @if ($post->rating == 2)
+                                                <option value="2" selected>2</option>
+                                            @else
+                                                <option value="2">2</option>
+                                            @endif
+                                            @if ($post->rating == 3)
+                                                <option value="3" selected>3</option>
+                                            @else
+                                                <option value="3">3</option>
+                                            @endif
+                                            @if ($post->rating == 4)
+                                                <option value="4" selected>4</option>
+                                            @else
+                                                <option value="4">4</option>
+                                            @endif
+                                            @if ($post->rating == 5)
+                                                <option value="5" selected>5</option>
+                                            @else
+                                                <option value="5">5</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    @if ($user->id == $post->post_userid || $profile->isadmin == true)
+                                    <div style="float: right; margin-top: 10px;">
+                                        <img class="edittweet" id="edit_{{ $post->id }}"
+                                            src={{ url('/images/pencil.svg') }} height="20" />
+                                        &nbsp;&nbsp;
+                                        <img class="deletetweet" id="delete_{{ $post->id }}"
+                                            src={{ url('/images/bin.svg') }} height="20" />
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
                             <hr>
                         </div>
-                    </div>
-
-                    <!-- Twitter Post -->
-                    <div class="row justify-content-center">
-                        <!-- Profile Pic -->
-                        <div class="col-md-2">
-                            <img class="rounded-circle" width="70" src="/storage/{{ $profile->image }}">
-                            <p style="font-weight: bold;">{{ $profile->description }}</p>
-                        </div>
-                        <div class="col-md-10">
-                            <form id="TweetSubmit" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group">
-                                    <input class="form-control" type="text" id="submit_tweet_title" name="tweet_title"
-                                        style="font-size: 14pt; width: 100%;" placeholder="Title">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" id="submit_tweet_text" name="tweet_text" rows="3"
-                                        style="font-size: 14pt;" placeholder="What's happening?"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <div class="image-upload" style="text-align: left; float: left;">
-                                        Upload a picture: &nbsp;&nbsp;
-                                        <label for="submit_tweet_img">
-                                            <img src={{ url('/images/file-picture.svg') }} height="30" />
-                                        </label>
-
-                                        <input id="submit_tweet_img" name="tweet_img" type="file" />
-                                    </div>
-                                    <div style="text-align: right; float: right;" class="animate__animated animate__heartBeat animate__infinite">
-                                        <a id="PostTweetButton" class="TweetButton">Tweet</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row pt-5" id="tweets">
-                        @if (count($posts) == 0)
-                            <h4 style="margin-left: 40px;">No tweets today.</h4>
-                        @else
-                            @foreach($posts as $post)
-                            <div class="col-12" id="tweetdiv_{{ $post->id }}">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <img class="rounded-circle" width="50" src="/storage/{{ $post->profileimage }}">
-                                    </div>
-                                    <div class="col-md-10">
-                                        <span style="font-weight: bold; font-style: italic;">{{ $post->profilename }}</span>
-                                        &nbsp;&nbsp;
-                                        <span style="font-style: italic;">{{ '@' . $post->username }}</span>
-                                        <span style="margin-left: 10px;">{{ date('M j, Y', strtotime($post->time) + 8 * 3600) }}</span>
-
-                                        <p id="tweettitle_{{ $post->id }}" style="font-weight: bold; text-decoration-line: underline; margin-top: 10px; margin-bottom: 0px">{{ $post->tweettitle }}</p>
-
-                                        @if (!empty($post->tweetcontent))
-                                        <p id="tweettext_{{ $post->id }}">{{ $post->tweetcontent }}</p>
-                                        @endif
-
-                                        @if (!empty($post->tweetimage))
-                                        <img src="/storage/{{$post->tweetimage}}" height="200"
-                                            class="rounded mx-auto d-block">
-                                        @endif
-
-                                        <div style="float: left; margin-top: 10px;">Your Rating: &nbsp;&nbsp;</div>
-                                        <div id="ratingdiv_{{ $post->id }}" style="float: left; margin-top: 10px;">
-                                            <select id="rating_{{ $post->id }}" class="tweetrating" data-field-name="rating_{{ $post->id }}">
-                                                <option value=""></option>
-                                                @if ($post->rating == 1)
-                                                    <option value="1" selected>1</option>
-                                                @else
-                                                    <option value="1">1</option>
-                                                @endif
-                                                @if ($post->rating == 2)
-                                                    <option value="2" selected>2</option>
-                                                @else
-                                                    <option value="2">2</option>
-                                                @endif
-                                                @if ($post->rating == 3)
-                                                    <option value="3" selected>3</option>
-                                                @else
-                                                    <option value="3">3</option>
-                                                @endif
-                                                @if ($post->rating == 4)
-                                                    <option value="4" selected>4</option>
-                                                @else
-                                                    <option value="4">4</option>
-                                                @endif
-                                                @if ($post->rating == 5)
-                                                    <option value="5" selected>5</option>
-                                                @else
-                                                    <option value="5">5</option>
-                                                @endif
-                                            </select>
-                                        </div>
-
-                                        @if ($user->id == $post->post_userid || $profile->isadmin == true)
-                                        <div style="float: right; margin-top: 10px;">
-                                            <img class="edittweet" id="edit_{{ $post->id }}"
-                                                src={{ url('/images/pencil.svg') }} height="20" />
-                                            &nbsp;&nbsp;
-                                            <img class="deletetweet" id="delete_{{ $post->id }}"
-                                                src={{ url('/images/bin.svg') }} height="20" />
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                            @endforeach
-                        @endif
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

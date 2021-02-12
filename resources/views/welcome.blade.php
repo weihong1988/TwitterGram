@@ -5,9 +5,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="container">
-                    <img src={{ url('/images/lock.png') }} height="600px" style="display: block; margin-left: auto; margin-right: auto;" />
-
-                    
+                    <div style="margin: 25px 0px 75px 50px;">
+                        <h1>Happening now</h1>
+                        <br>
+                        <h3>Join BadTwitter today. The privacy experts.</h3>
+                    </div>
+                    <img src={{ url('/images/lock.png') }} height="400px" style="display: block; margin-left: auto; margin-right: auto;" />
                 </div>
             </div>
         </div>

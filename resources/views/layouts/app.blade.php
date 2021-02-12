@@ -61,6 +61,9 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile') }}">My Profile</a>
+                        </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('follower.index') }}">Discover Friends</a>
                             </li>

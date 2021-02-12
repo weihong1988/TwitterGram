@@ -60,7 +60,11 @@ class PostController extends Controller
         $post->tweetimage = $imagePath;
         $post->save();
 
-        $rake = RakePlus::create($post->tweettitle, 'en_US');
+        $TextString = request('tweet_title') . ".";
+        if (!empty(request('tweet_text')))
+            $TextString = $TextString . " " . request('tweet_text');
+
+        $rake = RakePlus::create($TextString, 'en_US');
         $phrase_scores = $rake->sortByScore('desc')->scores();
 
         foreach($phrase_scores as $key => $value) 
@@ -74,25 +78,6 @@ class PostController extends Controller
             $keyword->score = $value;
 
             $keyword->save();
-        }
-
-        if (!empty(request('tweet_text')))
-        {
-            $rake = RakePlus::create(request('tweet_text'), 'en_US');
-            $phrase_scores = $rake->sortByScore('desc')->scores();
-
-            foreach($phrase_scores as $key => $value) 
-            {
-                $keyword = new Keyword();
-
-                $keyword->user_id = $user->id;
-                $keyword->post_id = $post->id;
-
-                $keyword->keyword = $key;
-                $keyword->score = $value;
-
-                $keyword->save();
-            }
         }
 
         $userprofile = DB::table('profiles')->where('user_id', '=', $user->id)->first();
@@ -123,13 +108,17 @@ class PostController extends Controller
      */
     public function show($postID)
     {
-        $post = DB::table('posts')
-                ->join('profiles', 'posts.user_id', '=', 'profiles.id')
-                ->join('users', 'posts.user_id', '=', 'users.id')
-                ->select('posts.id', 'posts.user_id AS post_userid', 'posts.tweettitle', 'posts.tweetcontent', 'posts.tweetimage', 'posts.created_at', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username')
-                ->where('posts.id', '>', $postID)
-                ->oldest('posts.id')
-                ->first();
+        $user = Auth::user();
+
+        $post = DB::table('followers')
+            ->join('posts', 'followers.friend_id', '=', 'posts.user_id')
+            ->join('profiles', 'followers.friend_id', '=', 'profiles.user_id')
+            ->join('users', 'followers.friend_id', '=', 'users.id')
+            ->select('posts.id', 'posts.user_id AS post_userid', 'posts.tweettitle', 'posts.tweetcontent', 'posts.tweetimage', 'posts.created_at AS time', 'profiles.description AS profilename', 'profiles.image AS profileimage', 'users.name AS username')
+            ->where('followers.user_id', '=', $user->id)
+            ->where('posts.id', '>', $postID)
+            ->oldest('posts.id')
+            ->first();                
 
         if (empty($post))
         {
@@ -153,7 +142,7 @@ class PostController extends Controller
                 'tweet_title' => $post->tweettitle,
                 'tweet_text' => $post->tweetcontent,
                 'tweet_img' => $tweetimg,
-                'tweet_created_at' => date('M j, Y', strtotime($post->created_at) + 8 * 3600),
+                'tweet_created_at' => date('M j, Y', strtotime($post->time) + 8 * 3600),
                 'username' => $post->username
             ]);
         }
